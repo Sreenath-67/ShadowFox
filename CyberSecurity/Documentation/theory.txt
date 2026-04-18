@@ -1,0 +1,46 @@
+What is Port Scanning?
+Port scanning is a technique used to identify open, closed, or filtered ports on a networked system. It helps in discovering active services and understanding how a system communicates over a network.
+
+Each device connected to a network uses ports to handle multiple services such as web servers, file transfer, and remote access.
+
+
+
+
+What is a Port?
+A port is a logical communication endpoint in a computer network. Ports are identified by numbers ranging from 0 to 65535.
+
+Common ports include:
+- Port 21  : FTP (File Transfer Protocol)
+- Port 22  : SSH (Secure Shell)
+- Port 80  : HTTP (Web Server)
+- Port 443 : HTTPS (Secure Web Server)
+
+
+Types of Port States
+During scanning, ports can be in different states:
+
+- Open       : A service is actively running and accepting connections.
+- Closed     : No service is running on the port.
+- Filtered   : The port is blocked or protected by a firewall.
+
+
+
+What is Nmap?
+Nmap (Network Mapper) is an open-source tool used for network discovery and security auditing. It is widely used to scan networks, identify open ports, and detect services and operating systems.
+
+Working of Port Scanning
+Port scanning works by sending network requests to specific ports on a target system and analyzing the responses.
+
+- If the system responds positively -> Port is Open
+- If there is no response or rejection -> Port is Closed or Filtered
+
+Importance of Port Scanning
+- Helps in identifying security weaknesses
+- Detects unnecessary open ports
+- Assists in system and network administration
+- Improves overall network security
+
+
+
+Ethical Consideration
+Port scanning should only be performed on systems where permission is granted or within a controlled lab environment. Unauthorized scanning of external systems is not allowed and may be illegal.

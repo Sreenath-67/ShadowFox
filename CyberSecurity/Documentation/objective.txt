@@ -1,0 +1,8 @@
+The main objectives of this project are:
+
+1. To understand the concept of port scanning.
+2. To identify open ports on a target system.
+3. To detect services running on open ports.
+4. To analyze the results of port scanning.
+5. To study how open ports can impact system security.
+6. To use Nmap as a tool for network scanning in a controlled environment.

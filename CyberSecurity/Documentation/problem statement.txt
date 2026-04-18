@@ -1,0 +1,3 @@
+In modern computer networks, systems are connected through multiple services that communicate via ports. Many of these ports may remain open and expose services that can be accessed remotely. If not properly monitored, open ports can become potential entry points for attackers.
+
+The problem is to identify which ports are open on a target system and determine the services running on those ports. This helps in understanding the security posture of the system and detecting possible vulnerabilities.
