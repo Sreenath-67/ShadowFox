@@ -1,0 +1,29 @@
+{
+  "class_names": [
+    "airplane",
+    "automobile",
+    "bird",
+    "cat",
+    "deer",
+    "dog",
+    "frog",
+    "horse",
+    "ship",
+    "truck"
+  ],
+  "class_emoji": {
+    "airplane": "\u2708\ufe0f",
+    "automobile": "\ud83d\ude97",
+    "bird": "\ud83d\udc26",
+    "cat": "\ud83d\udc31",
+    "deer": "\ud83e\udd8c",
+    "dog": "\ud83d\udc36",
+    "frog": "\ud83d\udc38",
+    "horse": "\ud83d\udc34",
+    "ship": "\ud83d\udea2",
+    "truck": "\ud83d\ude9a"
+  },
+  "test_accuracy": 0.8586999773979187,
+  "test_loss": 0.4272509813308716,
+  "epochs_trained": 30
+}
