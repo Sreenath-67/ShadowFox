@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Store Analytics Dashboard</title>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Store Analytics Dashboard</h1>
+
+        <button class="btn" onclick="getAnalysis()">Get Analysis</button>
+
+        <div class="card" id="result">
+            Click "Get Analysis" to view insights
+        </div>
+
+        <h2>Data Visualization</h2>
+
+        <canvas id="pieChart"></canvas>
+        <canvas id="barChart"></canvas>
+
+        <h2>Predict Profit</h2>
+
+        <input type="number" id="salesInput" placeholder="Enter Sales">
+        <button class="btn" onclick="predict()">Predict</button>
+
+        <div class="card" id="prediction"></div>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
