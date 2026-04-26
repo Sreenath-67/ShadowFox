@@ -7,7 +7,7 @@ app = Flask(__name__)
 CORS(app)
 
 # ✅ Load dataset
-df = pd.read_csv("data/Sample - Superstore.csv", encoding="latin1")
+df = pd.read_csv("D:/ShadowFox/AIML/Intermediate/StoreSales/Backend/data/Sample - Superstore.csv", encoding="latin1")
 
 # ✅ Train model automatically
 model = train_model(df)
