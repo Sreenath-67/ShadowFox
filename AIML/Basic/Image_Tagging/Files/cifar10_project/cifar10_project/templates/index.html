@@ -1,140 +1,145 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>CIFAR-10 Vision Lab</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
-<link rel="stylesheet" href="/static/css/style.css"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CIFAR-10 Vision Lab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap"
+    rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
+  <link rel="stylesheet" href="/static/css/style.css" />
 </head>
+
 <body>
 
-<!-- ── SCANLINES OVERLAY ─────────────────────────────────── -->
-<div class="scanlines"></div>
 
-<!-- ── HEADER ───────────────────────────────────────────── -->
-<header>
-  <div class="header-left">
-    <span class="logo-mark">◈</span>
-    <h1>VISION<span class="accent">LAB</span></h1>
-  </div>
-  <div class="header-right">
-    <div class="pill" id="modelPill">
-      <span class="dot {% if model_loaded %}dot-green{% else %}dot-red{% endif %}"></span>
-      <span id="modelStatus">{% if model_loaded %}MODEL READY{% else %}NO MODEL{% endif %}</span>
+  <div class="scanlines"></div>
+
+
+  <header>
+    <div class="header-left">
+      <span class="logo-mark">◈</span>
+      <h1>VISION<span class="accent">LAB</span></h1>
     </div>
-    <div class="pill">
-      <span class="dot dot-blue"></span>
-      <span id="userCount">1 USER</span>
-    </div>
-    {% if model_loaded %}
-    <div class="pill pill-acc">
-      <span>ACC</span>
-      <span class="acc-val">{{ "%.1f"|format(test_accuracy * 100) }}%</span>
-    </div>
-    {% endif %}
-  </div>
-</header>
-
-<!-- ── MAIN GRID ─────────────────────────────────────────── -->
-<main>
-
-  <!-- LEFT: UPLOAD PANEL -->
-  <section class="panel panel-upload">
-    <div class="panel-label">01 / UPLOAD</div>
-
-    <div class="drop-zone" id="dropZone">
-      <input type="file" id="fileInput" accept="image/*" hidden/>
-      <div class="drop-inner" id="dropInner">
-        <div class="drop-icon">⬡</div>
-        <p class="drop-title">DROP IMAGE HERE</p>
-        <p class="drop-sub">or click to browse</p>
-        <p class="drop-hint">jpg · png · webp · gif</p>
+    <div class="header-right">
+      <div class="pill" id="modelPill">
+        <span class="dot {% if model_loaded %}dot-green{% else %}dot-red{% endif %}"></span>
+        <span id="modelStatus">{% if model_loaded %}MODEL READY{% else %}NO MODEL{% endif %}</span>
       </div>
-      <img id="previewImg" class="preview-img hidden" alt="preview"/>
-    </div>
-
-    <button class="btn-classify" id="classifyBtn" disabled>
-      <span class="btn-text">CLASSIFY IMAGE</span>
-      <span class="btn-arrow">→</span>
-    </button>
-
-    <div class="cifar-classes">
-      <p class="label-tiny">CIFAR-10 CLASSES</p>
-      <div class="class-chips">
-        <span>✈️ airplane</span><span>🚗 automobile</span>
-        <span>🐦 bird</span><span>🐱 cat</span>
-        <span>🦌 deer</span><span>🐶 dog</span>
-        <span>🐸 frog</span><span>🐴 horse</span>
-        <span>🚢 ship</span><span>🚚 truck</span>
+      <div class="pill">
+        <span class="dot dot-blue"></span>
+        <span id="userCount">1 USER</span>
       </div>
+      {% if model_loaded %}
+      <div class="pill pill-acc">
+        <span>ACC</span>
+        <span class="acc-val">{{ "%.1f"|format(test_accuracy * 100) }}%</span>
+      </div>
+      {% endif %}
+    </div>
+  </header>
+
+
+  <main>
+
+
+    <section class="panel panel-upload">
+      <div class="panel-label">01 / UPLOAD</div>
+
+      <div class="drop-zone" id="dropZone">
+        <input type="file" id="fileInput" accept="image/*" hidden />
+        <div class="drop-inner" id="dropInner">
+          <div class="drop-icon">⬡</div>
+          <p class="drop-title">DROP IMAGE HERE</p>
+          <p class="drop-sub">or click to browse</p>
+          <p class="drop-hint">jpg · png · webp · gif</p>
+        </div>
+        <img id="previewImg" class="preview-img hidden" alt="preview" />
+      </div>
+
+      <button class="btn-classify" id="classifyBtn" disabled>
+        <span class="btn-text">CLASSIFY IMAGE</span>
+        <span class="btn-arrow">→</span>
+      </button>
+
+      <div class="cifar-classes">
+        <p class="label-tiny">CIFAR-10 CLASSES</p>
+        <div class="class-chips">
+          <span>✈️ airplane</span><span>🚗 automobile</span>
+          <span>🐦 bird</span><span>🐱 cat</span>
+          <span>🦌 deer</span><span>🐶 dog</span>
+          <span>🐸 frog</span><span>🐴 horse</span>
+          <span>🚢 ship</span><span>🚚 truck</span>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="panel panel-result">
+      <div class="panel-label">02 / RESULT</div>
+
+      <div class="result-placeholder" id="resultPlaceholder">
+        <div class="placeholder-ring"></div>
+        <p>Awaiting classification…</p>
+      </div>
+
+      <div class="result-card hidden" id="resultCard">
+        <div class="result-emoji" id="resultEmoji">🐱</div>
+        <div class="result-label" id="resultLabel">CAT</div>
+        <div class="result-category" id="resultCategory">ANIMAL</div>
+        <div class="result-confidence">
+          <span class="conf-number" id="confNumber">94.2</span>
+          <span class="conf-pct">%</span>
+          <span class="conf-label">CONFIDENCE</span>
+        </div>
+        <div class="result-meta">
+          <span id="inferenceTime">–</span> ms inference
+        </div>
+      </div>
+
+
+      <div class="loading-overlay hidden" id="loadingOverlay">
+        <div class="loader-grid">
+          <span></span><span></span><span></span>
+          <span></span><span></span><span></span>
+          <span></span><span></span><span></span>
+        </div>
+        <p>CLASSIFYING…</p>
+      </div>
+    </section>
+
+
+    <section class="panel panel-probs">
+      <div class="panel-label">03 / PROBABILITIES</div>
+
+      <div class="prob-list" id="probList">
+
+        <div class="prob-placeholder">
+          <p>Run a classification to see<br />probability distribution</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+
+  <section class="feed-section">
+    <div class="feed-header">
+      <span class="panel-label" style="position:static">04 / LIVE FEED</span>
+      <span class="feed-sub">real-time predictions across all connected users</span>
+    </div>
+    <div class="feed-strip" id="feedStrip">
+
     </div>
   </section>
 
-  <!-- CENTER: RESULT PANEL -->
-  <section class="panel panel-result">
-    <div class="panel-label">02 / RESULT</div>
 
-    <div class="result-placeholder" id="resultPlaceholder">
-      <div class="placeholder-ring"></div>
-      <p>Awaiting classification…</p>
-    </div>
+  <div class="toast hidden" id="toast"></div>
 
-    <div class="result-card hidden" id="resultCard">
-      <div class="result-emoji" id="resultEmoji">🐱</div>
-      <div class="result-label" id="resultLabel">CAT</div>
-      <div class="result-category" id="resultCategory">ANIMAL</div>
-      <div class="result-confidence">
-        <span class="conf-number" id="confNumber">94.2</span>
-        <span class="conf-pct">%</span>
-        <span class="conf-label">CONFIDENCE</span>
-      </div>
-      <div class="result-meta">
-        <span id="inferenceTime">–</span> ms inference
-      </div>
-    </div>
-
-    <!-- Loading state -->
-    <div class="loading-overlay hidden" id="loadingOverlay">
-      <div class="loader-grid">
-        <span></span><span></span><span></span>
-        <span></span><span></span><span></span>
-        <span></span><span></span><span></span>
-      </div>
-      <p>CLASSIFYING…</p>
-    </div>
-  </section>
-
-  <!-- RIGHT: PROBABILITY BARS -->
-  <section class="panel panel-probs">
-    <div class="panel-label">03 / PROBABILITIES</div>
-
-    <div class="prob-list" id="probList">
-      <!-- populated by JS -->
-      <div class="prob-placeholder">
-        <p>Run a classification to see<br/>probability distribution</p>
-      </div>
-    </div>
-  </section>
-
-</main>
-
-<!-- ── LIVE FEED ─────────────────────────────────────────── -->
-<section class="feed-section">
-  <div class="feed-header">
-    <span class="panel-label" style="position:static">04 / LIVE FEED</span>
-    <span class="feed-sub">real-time predictions across all connected users</span>
-  </div>
-  <div class="feed-strip" id="feedStrip">
-    <!-- populated by JS -->
-  </div>
-</section>
-
-<!-- ── TOAST ─────────────────────────────────────────────── -->
-<div class="toast hidden" id="toast"></div>
-
-<script src="/static/js/app.js"></script>
+  <script src="/static/js/app.js"></script>
 </body>
+
 </html>

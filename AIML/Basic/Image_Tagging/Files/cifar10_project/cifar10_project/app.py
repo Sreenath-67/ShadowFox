@@ -17,16 +17,12 @@ from flask_socketio import SocketIO, emit, join_room, leave_room
 from PIL import Image
 import tensorflow as tf
 
-# ─────────────────────────────────────────────────────────────
-#  App setup
-# ─────────────────────────────────────────────────────────────
+
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "cifar10-secret-key-2024"
 socketio = SocketIO(app, cors_allowed_origins="*", async_mode="threading")
 
-# ─────────────────────────────────────────────────────────────
-#  Model loading
-# ─────────────────────────────────────────────────────────────
+
 MODEL_PATH = Path("model/cifar10_best.keras")
 META_PATH  = Path("model/metadata.json")
 
@@ -70,9 +66,7 @@ def preprocess_image(image_bytes):
     return np.expand_dims(arr, axis=0)          # (1, 32, 32, 3)
 
 
-# ─────────────────────────────────────────────────────────────
-#  Shared activity feed (last 50 predictions across all users)
-# ─────────────────────────────────────────────────────────────
+
 activity_feed = []
 
 def add_to_feed(entry):
@@ -80,9 +74,7 @@ def add_to_feed(entry):
     if len(activity_feed) > 50:
         activity_feed.pop(0)
 
-# ─────────────────────────────────────────────────────────────
-#  HTTP routes
-# ─────────────────────────────────────────────────────────────
+
 @app.route("/")
 def index():
     return render_template("index.html",
@@ -171,9 +163,7 @@ def get_feed():
     return jsonify({"feed": list(reversed(activity_feed))})
 
 
-# ─────────────────────────────────────────────────────────────
-#  Socket.IO events
-# ─────────────────────────────────────────────────────────────
+
 connected_users = {}
 
 @socketio.on("connect")
@@ -197,9 +187,7 @@ def on_disconnect():
     print(f"[-] Client {sid[:8]}  |  Total: {len(connected_users)}")
 
 
-# ─────────────────────────────────────────────────────────────
-#  Entry point
-# ─────────────────────────────────────────────────────────────
+
 if __name__ == "__main__":
     load_model()
 

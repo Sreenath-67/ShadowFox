@@ -1,16 +1,13 @@
-/* ═══════════════════════════════════════════════════════════
-   CIFAR-10 Vision Lab – Client JS
-   ═══════════════════════════════════════════════════════════ */
 
 "use strict";
 
-// ── Socket.IO ────────────────────────────────────────────────
+
 const socket = io({ transports: ["websocket", "polling"] });
 
-socket.on("connect",          ()  => console.log("[WS] connected"));
-socket.on("user_count",       (d) => updateUserCount(d.count));
-socket.on("new_prediction",   (d) => prependFeedCard(d));
-socket.on("server_info",      (d) => {
+socket.on("connect", () => console.log("[WS] connected"));
+socket.on("user_count", (d) => updateUserCount(d.count));
+socket.on("new_prediction", (d) => prependFeedCard(d));
+socket.on("server_info", (d) => {
   updateUserCount(d.user_count);
   if (d.recent_feed?.length) {
     d.recent_feed.slice().reverse().forEach(prependFeedCard);
@@ -22,29 +19,29 @@ function updateUserCount(n) {
   if (el) el.textContent = `${n} USER${n !== 1 ? "S" : ""}`;
 }
 
-// ── DOM refs ─────────────────────────────────────────────────
-const dropZone     = document.getElementById("dropZone");
-const fileInput    = document.getElementById("fileInput");
-const dropInner    = document.getElementById("dropInner");
-const previewImg   = document.getElementById("previewImg");
-const classifyBtn  = document.getElementById("classifyBtn");
-const resultCard   = document.getElementById("resultCard");
+
+const dropZone = document.getElementById("dropZone");
+const fileInput = document.getElementById("fileInput");
+const dropInner = document.getElementById("dropInner");
+const previewImg = document.getElementById("previewImg");
+const classifyBtn = document.getElementById("classifyBtn");
+const resultCard = document.getElementById("resultCard");
 const resultPlaceholder = document.getElementById("resultPlaceholder");
-const loadingOverlay    = document.getElementById("loadingOverlay");
-const probList     = document.getElementById("probList");
-const feedStrip    = document.getElementById("feedStrip");
-const toast        = document.getElementById("toast");
+const loadingOverlay = document.getElementById("loadingOverlay");
+const probList = document.getElementById("probList");
+const feedStrip = document.getElementById("feedStrip");
+const toast = document.getElementById("toast");
 
 let selectedFile = null;
 
-// ── Drag & drop ──────────────────────────────────────────────
+
 dropZone.addEventListener("click", () => fileInput.click());
 
 dropZone.addEventListener("dragover", (e) => {
   e.preventDefault();
   dropZone.classList.add("drag-over");
 });
-dropZone.addEventListener("dragleave",  () => dropZone.classList.remove("drag-over"));
+dropZone.addEventListener("dragleave", () => dropZone.classList.remove("drag-over"));
 dropZone.addEventListener("drop", (e) => {
   e.preventDefault();
   dropZone.classList.remove("drag-over");
@@ -73,7 +70,7 @@ function handleFile(file) {
   highlightChip(null);
 }
 
-// ── Classify ─────────────────────────────────────────────────
+
 classifyBtn.addEventListener("click", classify);
 
 async function classify() {
@@ -116,13 +113,13 @@ function setLoading(on) {
   }
 }
 
-// ── Display result ───────────────────────────────────────────
+
 function displayResult(data) {
   // Result card
-  document.getElementById("resultEmoji").textContent   = data.emoji;
-  document.getElementById("resultLabel").textContent   = data.prediction.toUpperCase();
+  document.getElementById("resultEmoji").textContent = data.emoji;
+  document.getElementById("resultLabel").textContent = data.prediction.toUpperCase();
   document.getElementById("resultCategory").textContent = data.category.toUpperCase();
-  document.getElementById("confNumber").textContent    = (data.confidence * 100).toFixed(1);
+  document.getElementById("confNumber").textContent = (data.confidence * 100).toFixed(1);
   document.getElementById("inferenceTime").textContent = data.inference_ms;
 
   resultCard.classList.remove("hidden");
@@ -138,17 +135,17 @@ function displayResult(data) {
   if (data.confidence > 0.85) confettiPop();
 }
 
-// ── Prob bars ────────────────────────────────────────────────
+
 function renderProbBars(classes) {
   probList.innerHTML = "";
   classes.forEach((c, idx) => {
-    const pct    = (c.confidence * 100).toFixed(1);
-    const isTop  = idx === 0;
+    const pct = (c.confidence * 100).toFixed(1);
+    const isTop = idx === 0;
 
-    const row    = document.createElement("div");
+    const row = document.createElement("div");
     row.className = "prob-row";
 
-    const emoji  = document.createElement("div");
+    const emoji = document.createElement("div");
     emoji.className = "prob-emoji";
     emoji.textContent = c.emoji;
 
@@ -156,7 +153,7 @@ function renderProbBars(classes) {
     barWrap.className = "prob-bar-wrap";
 
     const fill = document.createElement("div");
-    fill.className  = `prob-bar-fill${isTop ? " top-bar" : ""}`;
+    fill.className = `prob-bar-fill${isTop ? " top-bar" : ""}`;
     fill.setAttribute("data-label", c.label);
     barWrap.appendChild(fill);
 
@@ -184,14 +181,14 @@ function clearProbList() {
   </div>`;
 }
 
-// ── Class chip highlight ─────────────────────────────────────
+
 function highlightChip(label) {
   document.querySelectorAll(".class-chips span").forEach((s) => {
     s.classList.toggle("highlight", label && s.textContent.includes(label));
   });
 }
 
-// ── Live feed ────────────────────────────────────────────────
+
 function prependFeedCard(entry) {
   // Remove empty placeholder
   const empty = feedStrip.querySelector(".feed-empty");
@@ -215,7 +212,6 @@ function prependFeedCard(entry) {
   }
 }
 
-// ── Toast ────────────────────────────────────────────────────
 let toastTimer;
 function showToast(msg, type = "info") {
   toast.textContent = msg;
@@ -224,7 +220,7 @@ function showToast(msg, type = "info") {
   toastTimer = setTimeout(() => { toast.classList.add("hidden"); }, 4000);
 }
 
-// ── Confetti pop ─────────────────────────────────────────────
+
 function confettiPop() {
   const colors = ["#00f5a0", "#7b5ea7", "#4fc3f7", "#ff6b6b"];
   for (let i = 0; i < 28; i++) {
@@ -255,7 +251,7 @@ confettiStyle.textContent = `
 `;
 document.head.appendChild(confettiStyle);
 
-// ── Init: check feed ─────────────────────────────────────────
+
 (async () => {
   try {
     const r = await fetch("/api/feed");
@@ -263,5 +259,5 @@ document.head.appendChild(confettiStyle);
     if (d.feed?.length === 0) {
       feedStrip.innerHTML = `<span class="feed-empty">No predictions yet — upload an image to get started</span>`;
     }
-  } catch {}
+  } catch { }
 })();
